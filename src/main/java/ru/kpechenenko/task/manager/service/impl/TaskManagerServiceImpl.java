@@ -12,6 +12,7 @@ import ru.kpechenenko.task.manager.service.TaskManagerService;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     @Override
     public void createTask(TaskInput taskInput) {
         var ownedTag = this.tagRepository.findById(taskInput.getTagId()).orElseThrow(
-            () -> new IllegalArgumentException("Tag with id #%d does not exists!".formatted(taskInput.getTagId()))
+            () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(taskInput.getTagId()))
         );
         var newTask = new Task(
             taskInput.getName(),
@@ -51,7 +52,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     @Override
     public void deleteTask(Integer taskId) {
         var deletedTask = this.taskRepository.findById(taskId).orElseThrow(
-            () -> new IllegalArgumentException("Task with id #%d does not exists!".formatted(taskId))
+            () -> new NoSuchElementException("Task with id #%d does not exists!".formatted(taskId))
         );
         deletedTask.getTag().removeTask(deletedTask);
         this.taskRepository.delete(deletedTask);
@@ -66,7 +67,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     @Override
     public TagDto findTagWithTasks(Integer tagId) {
         var tag = this.tagRepository.findById(tagId).orElseThrow(
-            () -> new IllegalArgumentException("Tag with id #%d does not exists!".formatted(tagId))
+            () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(tagId))
         );
         // todo extract dto to entity to method
         return new TagDto(
@@ -88,7 +89,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     @Override
     public void deleteTagWithTasks(Integer tagId) {
         if (!this.tagRepository.existsById(tagId)) {
-            throw new IllegalArgumentException("Tag with id #%d does not exists!".formatted(tagId));
+            throw new NoSuchElementException("Tag with id #%d does not exists!".formatted(tagId));
         }
         this.tagRepository.deleteById(tagId);
     }
