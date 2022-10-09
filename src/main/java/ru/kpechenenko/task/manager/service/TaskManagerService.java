@@ -1,6 +1,6 @@
 package ru.kpechenenko.task.manager.service;
 
-import ru.kpechenenko.task.manager.dto.TagInput;
+import ru.kpechenenko.task.manager.dto.TagDto;
 import ru.kpechenenko.task.manager.dto.TaskInput;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public interface TaskManagerService {
 
     void deleteTask(Integer taskId);
 
-    void createTag(TagInput newTag);
+    void createTag(TagDto tagDto);
 
-    TagInput findTagWithTasks(Integer tagId);
+    TagDto findTagWithTasks(Integer tagId);
 
     void deleteTagWithTasks(Integer tagId);
 }
