@@ -9,6 +9,7 @@ import ru.kpechenenko.task.manager.service.TaskManagerService;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/task-manager/api")
 public final class TaskManagerController {
     private final TaskManagerService service;
 
