@@ -62,20 +62,7 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         var tag = this.tagRepository.findById(tagId).orElseThrow(
             () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(tagId))
         );
-        // todo extract dto to entity to method
-        return new TagDto(
-            tag.getId(),
-            tag.getName(),
-            tag.getTasks().stream()
-                .map(t -> new TaskInput(
-                        t.getId(),
-                        t.getTitle(),
-                        t.getDescription(),
-                        t.getDeadLine(),
-                        t.getTag().getId()
-                    )
-                ).toList()
-        );
+        return TagDto.fromEntity(tag);
     }
 
     @Transactional
