@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public final class TagDto {
     private Integer id;
-    private String title;
+    private String name;
     private List<TaskInput> tasks;
 }
