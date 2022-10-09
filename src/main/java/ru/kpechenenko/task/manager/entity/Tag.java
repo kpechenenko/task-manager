@@ -30,10 +30,12 @@ public final class Tag {
     }
 
     public void addTask(Task addedTask) {
+        addedTask.setTag(this);
         this.tasks.add(addedTask);
     }
 
     public void removeTask(Task removedTask) {
         this.tasks.remove(removedTask);
+        removedTask.setTag(null);
     }
 }
