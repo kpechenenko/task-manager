@@ -12,15 +12,15 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TaskInput {
+public class TaskDto {
     private Integer id;
     private String name;
     private String description;
     private LocalDate deadline;
     private Integer tagId;
 
-    public static TaskInput fromEntity(Task task) {
-        return new TaskInput(
+    public static TaskDto fromEntity(Task task) {
+        return new TaskDto(
             task.getId(),
             task.getTitle(),
             task.getDescription(),

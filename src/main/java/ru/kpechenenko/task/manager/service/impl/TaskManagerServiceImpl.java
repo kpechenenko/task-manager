@@ -3,7 +3,7 @@ package ru.kpechenenko.task.manager.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kpechenenko.task.manager.dto.TagDto;
-import ru.kpechenenko.task.manager.dto.TaskInput;
+import ru.kpechenenko.task.manager.dto.TaskDto;
 import ru.kpechenenko.task.manager.entity.Tag;
 import ru.kpechenenko.task.manager.entity.Task;
 import ru.kpechenenko.task.manager.repository.TagRepository;
@@ -21,14 +21,14 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     private final TagRepository tagRepository;
 
     @Override
-    public void createTask(TaskInput taskInput) {
-        var ownedTag = this.tagRepository.findById(taskInput.getTagId()).orElseThrow(
-            () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(taskInput.getTagId()))
+    public void createTask(TaskDto taskDto) {
+        var ownedTag = this.tagRepository.findById(taskDto.getTagId()).orElseThrow(
+            () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(taskDto.getTagId()))
         );
         var newTask = new Task(
-            taskInput.getName(),
-            taskInput.getDescription(),
-            taskInput.getDeadline(),
+            taskDto.getName(),
+            taskDto.getDescription(),
+            taskDto.getDeadline(),
             ownedTag
         );
         ownedTag.addTask(newTask);
@@ -36,9 +36,9 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     }
 
     @Override
-    public List<TaskInput> findAllTasks() {
+    public List<TaskDto> findAllTasks() {
         return this.taskRepository.findAll().stream()
-            .map(TaskInput::fromEntity)
+            .map(TaskDto::fromEntity)
             .toList();
     }
 

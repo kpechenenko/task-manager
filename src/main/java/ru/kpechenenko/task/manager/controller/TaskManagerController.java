@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kpechenenko.task.manager.dto.TagDto;
-import ru.kpechenenko.task.manager.dto.TaskInput;
+import ru.kpechenenko.task.manager.dto.TaskDto;
 import ru.kpechenenko.task.manager.service.TaskManagerService;
 
 @RestController
@@ -17,7 +17,7 @@ public final class TaskManagerController {
     private static final String TAG_RESOURCE = "/tags";
 
     @PostMapping(TASK_RESOURCE)
-    public ResponseEntity<?> addNewTask(@RequestBody TaskInput newTask) {
+    public ResponseEntity<?> addNewTask(@RequestBody TaskDto newTask) {
         this.service.createTask(newTask);
         return ResponseEntity.ok().build();
     }

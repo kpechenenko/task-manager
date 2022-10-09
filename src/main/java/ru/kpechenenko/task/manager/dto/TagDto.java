@@ -15,14 +15,14 @@ import java.util.List;
 public final class TagDto {
     private Integer id;
     private String name;
-    private List<TaskInput> tasks;
+    private List<TaskDto> tasks;
 
     public static TagDto fromEntity(Tag tag) {
         return new TagDto(
             tag.getId(),
             tag.getName(),
             tag.getTasks().stream()
-                .map(TaskInput::fromEntity)
+                .map(TaskDto::fromEntity)
                 .toList()
         );
     }
