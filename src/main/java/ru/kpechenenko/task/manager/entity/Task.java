@@ -15,13 +15,13 @@ import java.time.LocalDate;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, updatable = false)
     private Integer id;
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
-    @Column(name = "deadline")
+    @Column(name = "deadline", nullable = false)
     private LocalDate deadLine;
 
     @ManyToOne(optional = false)
