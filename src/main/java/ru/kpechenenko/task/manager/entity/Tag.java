@@ -28,4 +28,12 @@ public final class Tag {
     public Tag(String name) {
         this.name = name;
     }
+
+    public void addTask(Task addedTask) {
+        this.tasks.add(addedTask);
+    }
+
+    public void removeTask(Task removedTask) {
+        this.tasks.remove(removedTask);
+    }
 }
