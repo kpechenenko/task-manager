@@ -37,16 +37,9 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
     @Override
     public List<TaskInput> findAllTasks() {
-        // todo extract dto to entity to method
         return this.taskRepository.findAll().stream()
-            .map(t -> new TaskInput(
-                    t.getId(),
-                    t.getTitle(),
-                    t.getDescription(),
-                    t.getDeadLine(),
-                    t.getTag().getId()
-                )
-            ).toList();
+            .map(TaskInput::fromEntity)
+            .toList();
     }
 
     @Override
