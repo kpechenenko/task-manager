@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
+    @Column(name = "id", updatable = false)
     private Integer id;
     @Column(name = "title", nullable = false)
     private String title;
@@ -25,7 +25,7 @@ public class Task {
     private LocalDate deadLine;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "tag_id", nullable = false)
+    @JoinColumn(name = "tag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tag_id"))
     private Tag tag;
 
     public Task(String title, String description, LocalDate deadLine, Tag tag) {
