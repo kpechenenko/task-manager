@@ -24,7 +24,7 @@ public class Task {
     @Column(name = "deadline", nullable = false)
     private LocalDate deadLine;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tag_id"))
     private Tag tag;
 
