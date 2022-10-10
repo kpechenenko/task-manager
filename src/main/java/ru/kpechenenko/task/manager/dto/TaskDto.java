@@ -1,5 +1,6 @@
 package ru.kpechenenko.task.manager.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskDto {
     private Integer id;
     private String name;
