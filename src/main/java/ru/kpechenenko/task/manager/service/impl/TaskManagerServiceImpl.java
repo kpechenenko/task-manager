@@ -86,23 +86,22 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     }
 
     @Override
-    public void createTag(TagDto tagDto) {
+    public TagDto createTag(TagDto tagDto) {
         if (null != tagDto.getId()) {
-            this.updateTag(tagDto);
-            return;
+            return this.updateTag(tagDto);
         }
         var newTag = new Tag(tagDto.getName());
-        this.tagRepository.save(newTag);
+        return TagDto.fromEntity(this.tagRepository.save(newTag));
     }
 
-    private void updateTag(TagDto tagDto) {
+    private TagDto updateTag(TagDto tagDto) {
         var tagToUpdate = this.tagRepository.findById(tagDto.getId()).orElseThrow(
             () -> new NoSuchElementException("Tag with id #%d to update does not exists!".formatted(tagDto.getId()))
         );
         if (!tagToUpdate.getName().equals(tagDto.getName())) {
             tagToUpdate.setName(tagDto.getName());
         }
-        this.tagRepository.save(tagToUpdate);
+        return TagDto.fromEntity(this.tagRepository.save(tagToUpdate));
     }
 
     @Override

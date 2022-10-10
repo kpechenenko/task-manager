@@ -1,6 +1,7 @@
 package ru.kpechenenko.task.manager.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kpechenenko.task.manager.dto.TagDto;
@@ -36,8 +37,7 @@ public final class TaskManagerController {
 
     @PostMapping(TAG_RESOURCE)
     public ResponseEntity<?> addNewTag(@RequestBody TagDto tagDto) {
-        this.service.createTag(tagDto);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(this.service.createTag(tagDto), HttpStatus.CREATED);
     }
 
     @GetMapping(TAG_RESOURCE + "/{tagId}")

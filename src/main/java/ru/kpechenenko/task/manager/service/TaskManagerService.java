@@ -12,7 +12,7 @@ public interface TaskManagerService {
 
     void deleteTask(Integer taskId);
 
-    void createTag(TagDto tagDto);
+    TagDto createTag(TagDto tagDto);
 
     TagDto findTagWithTasks(Integer tagId);
 
