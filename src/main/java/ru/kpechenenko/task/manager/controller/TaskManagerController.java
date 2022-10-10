@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kpechenenko.task.manager.dto.ResponseModel;
 import ru.kpechenenko.task.manager.dto.TagDto;
 import ru.kpechenenko.task.manager.dto.TaskDto;
 import ru.kpechenenko.task.manager.service.TaskManagerService;
@@ -18,13 +19,20 @@ public final class TaskManagerController {
     private static final String TAG_RESOURCE = "/tags";
 
     @PostMapping(TASK_RESOURCE)
-    public ResponseEntity<?> addNewTask(@RequestBody TaskDto newTask) {
-        return new ResponseEntity<>(this.service.createTask(newTask), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseModel<?> addNewTask(@RequestBody TaskDto newTask) {
+        return new ResponseModel<>(
+            HttpStatus.CREATED.value(),
+            this.service.createTask(newTask)
+        );
     }
 
     @GetMapping(TASK_RESOURCE)
-    public ResponseEntity<?> getAllTask() {
-        return ResponseEntity.ok(this.service.findAllTasks());
+    public ResponseModel<?> getAllTask() {
+        return new ResponseModel<>(
+            HttpStatus.OK.value(),
+            this.service.findAllTasks()
+        );
     }
 
 
@@ -35,13 +43,20 @@ public final class TaskManagerController {
     }
 
     @PostMapping(TAG_RESOURCE)
-    public ResponseEntity<?> addNewTag(@RequestBody TagDto tagDto) {
-        return new ResponseEntity<>(this.service.createTag(tagDto), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseModel<?> addNewTag(@RequestBody TagDto tagDto) {
+        return new ResponseModel<>(
+            HttpStatus.CREATED.value(),
+            this.service.createTag(tagDto)
+        );
     }
 
     @GetMapping(TAG_RESOURCE + "/{tagId}")
-    public ResponseEntity<?> getTagWithTasks(@PathVariable Integer tagId) {
-        return ResponseEntity.ok(this.service.findTagWithTasks(tagId));
+    public ResponseModel<?> getTagWithTasks(@PathVariable Integer tagId) {
+        return new ResponseModel<>(
+            HttpStatus.OK.value(),
+            this.service.findTagWithTasks(tagId)
+        );
     }
 
     @DeleteMapping(TAG_RESOURCE + "/{tagId}")
