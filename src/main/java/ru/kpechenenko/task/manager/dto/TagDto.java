@@ -1,5 +1,6 @@
 package ru.kpechenenko.task.manager.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class TagDto {
     private Integer id;
     private String name;
