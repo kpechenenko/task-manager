@@ -22,6 +22,10 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
     @Override
     public void createTask(TaskDto taskDto) {
+        if (null != taskDto.getId()) {
+            this.updateTask(taskDto);
+            return;
+        }
         var ownedTag = this.tagRepository.findById(taskDto.getTagId()).orElseThrow(
             () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(taskDto.getTagId()))
         );
@@ -33,6 +37,36 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         );
         ownedTag.addTask(newTask);
         this.tagRepository.save(ownedTag);
+    }
+
+    private void updateTask(TaskDto taskDto) {
+        var taskToUpdate = this.taskRepository.findById(taskDto.getId()).orElseThrow(
+            () -> new NoSuchElementException("Task with id #%d to update does not exists!".formatted(taskDto.getTagId()))
+        );
+        if (!taskToUpdate.getTitle().equals(taskDto.getName())) {
+            taskToUpdate.setTitle(taskDto.getName());
+        }
+        if (!taskToUpdate.getDescription().equals(taskDto.getDescription())) {
+            taskToUpdate.setDescription(taskDto.getDescription());
+        }
+        if (!taskToUpdate.getDeadLine().equals(taskDto.getDeadline())) {
+            taskToUpdate.setDeadLine(taskDto.getDeadline());
+        }
+        if (!taskToUpdate.getTag().getId().equals(taskDto.getId())) {
+            var newTaskTag = this.tagRepository.findById(taskDto.getTagId()).orElseThrow(
+                () -> new NoSuchElementException(
+                    "Task with id #%d to update task with id #%d does not exists!".formatted(
+                        taskDto.getTagId(),
+                        taskToUpdate.getId()
+                    )
+                )
+            );
+            var currentTaskTag = taskToUpdate.getTag();
+            currentTaskTag.removeTask(taskToUpdate);
+            newTaskTag.addTask(taskToUpdate);
+            this.tagRepository.saveAll(List.of(currentTaskTag, newTaskTag));
+        }
+        this.taskRepository.save(taskToUpdate);
     }
 
     @Override
