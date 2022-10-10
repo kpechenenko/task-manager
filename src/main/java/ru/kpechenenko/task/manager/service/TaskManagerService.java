@@ -6,7 +6,7 @@ import ru.kpechenenko.task.manager.dto.TaskDto;
 import java.util.List;
 
 public interface TaskManagerService {
-    void createTask(TaskDto taskDto);
+    TaskDto createTask(TaskDto taskDto);
 
     List<TaskDto> findAllTasks();
 

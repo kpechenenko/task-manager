@@ -19,8 +19,7 @@ public final class TaskManagerController {
 
     @PostMapping(TASK_RESOURCE)
     public ResponseEntity<?> addNewTask(@RequestBody TaskDto newTask) {
-        this.service.createTask(newTask);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(this.service.createTask(newTask), HttpStatus.CREATED);
     }
 
     @GetMapping(TASK_RESOURCE)

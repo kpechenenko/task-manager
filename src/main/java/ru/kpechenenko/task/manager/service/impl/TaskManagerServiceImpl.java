@@ -21,10 +21,9 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     private final TagRepository tagRepository;
 
     @Override
-    public void createTask(TaskDto taskDto) {
+    public TaskDto createTask(TaskDto taskDto) {
         if (null != taskDto.getId()) {
-            this.updateTask(taskDto);
-            return;
+            return this.updateTask(taskDto);
         }
         var ownedTag = this.tagRepository.findById(taskDto.getTagId()).orElseThrow(
             () -> new NoSuchElementException("Tag with id #%d does not exists!".formatted(taskDto.getTagId()))
@@ -36,10 +35,10 @@ public class TaskManagerServiceImpl implements TaskManagerService {
             ownedTag
         );
         ownedTag.addTask(newTask);
-        this.tagRepository.save(ownedTag);
+        return TaskDto.fromEntity(this.taskRepository.save(newTask));
     }
 
-    private void updateTask(TaskDto taskDto) {
+    private TaskDto updateTask(TaskDto taskDto) {
         var taskToUpdate = this.taskRepository.findById(taskDto.getId()).orElseThrow(
             () -> new NoSuchElementException("Task with id #%d to update does not exists!".formatted(taskDto.getTagId()))
         );
@@ -64,9 +63,9 @@ public class TaskManagerServiceImpl implements TaskManagerService {
             var currentTaskTag = taskToUpdate.getTag();
             currentTaskTag.removeTask(taskToUpdate);
             newTaskTag.addTask(taskToUpdate);
-            this.tagRepository.saveAll(List.of(currentTaskTag, newTaskTag));
+            this.tagRepository.save(currentTaskTag);
         }
-        this.taskRepository.save(taskToUpdate);
+        return TaskDto.fromEntity(this.taskRepository.save(taskToUpdate));
     }
 
     @Override
